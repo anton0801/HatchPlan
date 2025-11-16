@@ -1,5 +1,67 @@
 import SwiftUI
 import Combine
+import AppTrackingTransparency
+
+
+class ApplicationDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
+    private var attributionData: [AnyHashable: Any] = [:]
+    private let trackingActivationKey = UIApplication.didBecomeActiveNotification
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(triggerTracking),
+                    name: trackingActivationKey,
+                    object: nil
+                )
+        return true
+    }
+    
+    @objc private func triggerTracking() {
+        if #available(iOS 14.0, *) {
+            // AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+            ATTrackingManager.requestTrackingAuthorization { _ in
+                DispatchQueue.main.async {
+                    // AppsFlyerLib.shared().start()  // ← СТАРТ ЗДЕСЬ, ОДИН РАЗ!
+                }
+            }
+        }
+    }
+    
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
+        // extractAndStoreDeepLink(from: userInfo)
+        completionHandler(.newData)
+    }
+    
+    // MARK: - UNUserNotificationCenterDelegate
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        let payload = notification.request.content.userInfo
+        // extractAndStoreDeepLink(from: payload)
+        completionHandler([.banner, .sound])
+    }
+    
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        // extractAndStoreDeepLink(from: response.notification.request.content.userInfo)
+        completionHandler()
+    }
+    
+}
 
 @main
 struct HatchPlanApp: App {
