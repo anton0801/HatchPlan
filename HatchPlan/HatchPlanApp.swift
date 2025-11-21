@@ -2,7 +2,6 @@ import SwiftUI
 import Combine
 import AppTrackingTransparency
 
-
 class ApplicationDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     private var attributionData: [AnyHashable: Any] = [:]
@@ -12,25 +11,34 @@ class ApplicationDelegate: UIResponder, UIApplicationDelegate, UNUserNotificatio
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        NotificationCenter.default.addObserver(
-                    self,
-                    selector: #selector(triggerTracking),
-                    name: trackingActivationKey,
-                    object: nil
-                )
+//        NotificationCenter.default.addObserver(
+//                    self,
+//                    selector: #selector(triggerTracking),
+//                    name: trackingActivationKey,
+//                    object: nil
+//                )
+//        ATTrackingManager.requestTrackingAuthorization { _ in
+//            DispatchQueue.main.async {
+//                // AppsFlyerLib.shared().start()
+//            }
+//        }
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
+        
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
     
-    @objc private func triggerTracking() {
-        if #available(iOS 14.0, *) {
-            // AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
-            ATTrackingManager.requestTrackingAuthorization { _ in
-                DispatchQueue.main.async {
-                    // AppsFlyerLib.shared().start()  // ← СТАРТ ЗДЕСЬ, ОДИН РАЗ!
-                }
-            }
-        }
-    }
+//    @objc private func triggerTracking() {
+//        if #available(iOS 14.0, *) {
+//            // AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+//            ATTrackingManager.requestTrackingAuthorization { _ in
+//                DispatchQueue.main.async {
+//                    // AppsFlyerLib.shared().start()  // ← СТАРТ ЗДЕСЬ, ОДИН РАЗ!
+//                }
+//            }
+//        }
+//    }
     
     func application(
         _ application: UIApplication,
@@ -65,11 +73,13 @@ class ApplicationDelegate: UIResponder, UIApplicationDelegate, UNUserNotificatio
 
 @main
 struct HatchPlanApp: App {
+    
     @StateObject private var store = AppStore()
     @AppStorage("hasSeenOnboarding") var hasSeenOnboarding = false
     
+    @UIApplicationDelegateAdaptor(ApplicationDelegate.self) var delegate
+    
     init() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
         setupAppearance()
     }
     
