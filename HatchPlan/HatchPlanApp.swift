@@ -17,28 +17,39 @@ class ApplicationDelegate: UIResponder, UIApplicationDelegate, UNUserNotificatio
 //                    name: trackingActivationKey,
 //                    object: nil
 //                )
-//        ATTrackingManager.requestTrackingAuthorization { _ in
-//            DispatchQueue.main.async {
-//                // AppsFlyerLib.shared().start()
+       
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.requestATTracking()
+        }
+        UNUserNotificationCenter.current().delegate = self
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+//            if granted {
+//                UIApplication.shared.registerForRemoteNotifications()
 //            }
 //        }
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
-        
-        UNUserNotificationCenter.current().delegate = self
         return true
     }
     
-//    @objc private func triggerTracking() {
-//        if #available(iOS 14.0, *) {
-//            // AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
-//            ATTrackingManager.requestTrackingAuthorization { _ in
-//                DispatchQueue.main.async {
-//                    // AppsFlyerLib.shared().start()  // ← СТАРТ ЗДЕСЬ, ОДИН РАЗ!
-//                }
-//            }
-//        }
-//    }
+    private func requestATTracking() {
+        ATTrackingManager.requestTrackingAuthorization { status in
+            DispatchQueue.main.async {
+                print("ATT статус: \(status.rawValue)")
+                // AppsFlyerLib.shared().start()  // ← стартуем здесь
+            }
+        }
+    }
+    
+    @objc private func triggerTracking() {
+        if #available(iOS 14.0, *) {
+            // AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+            ATTrackingManager.requestTrackingAuthorization { _ in
+                DispatchQueue.main.async {
+                    // AppsFlyerLib.shared().start()  // ← СТАРТ ЗДЕСЬ, ОДИН РАЗ!
+                }
+            }
+        }
+    }
     
     func application(
         _ application: UIApplication,
@@ -88,6 +99,15 @@ struct HatchPlanApp: App {
             if hasSeenOnboarding {
                 MainTabView().environmentObject(store)
                     .preferredColorScheme(.dark)
+                    .onAppear {
+                        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+                            if granted {
+                                DispatchQueue.main.async {
+                                    UIApplication.shared.registerForRemoteNotifications()
+                                }
+                            }
+                        }
+                    }
             } else {
                 OnboardingView { hasSeenOnboarding = true }
                     .environmentObject(store)

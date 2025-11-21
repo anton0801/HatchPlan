@@ -407,6 +407,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HatchPlan/Info.plist;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "HatchPlan uses personalized insights to help you focus better — like suggesting your best work hours or spotting distractions. To make these tips more accurate, we ask for permission to use limited, anonymized data from your sessions. No personal info is shared. You control it anytime in Settings.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -447,6 +448,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HatchPlan/Info.plist;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "HatchPlan uses personalized insights to help you focus better — like suggesting your best work hours or spotting distractions. To make these tips more accurate, we ask for permission to use limited, anonymized data from your sessions. No personal info is shared. You control it anytime in Settings.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
