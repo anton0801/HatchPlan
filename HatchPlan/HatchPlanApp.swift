@@ -1,83 +1,24 @@
 import SwiftUI
 import Combine
+import Firebase
+import UserNotifications
+import AppsFlyerLib
 import AppTrackingTransparency
 
-class ApplicationDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+extension ApplicationDelegate {
     
-    private var attributionData: [AnyHashable: Any] = [:]
-    private let trackingActivationKey = UIApplication.didBecomeActiveNotification
-
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-//        NotificationCenter.default.addObserver(
-//                    self,
-//                    selector: #selector(triggerTracking),
-//                    name: trackingActivationKey,
-//                    object: nil
-//                )
-       
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.requestATTracking()
-        }
-        UNUserNotificationCenter.current().delegate = self
-//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
-//            if granted {
-//                UIApplication.shared.registerForRemoteNotifications()
-//            }
-//        }
-        return true
-    }
-    
-    private func requestATTracking() {
-        ATTrackingManager.requestTrackingAuthorization { status in
-            DispatchQueue.main.async {
-                print("ATT статус: \(status.rawValue)")
-                // AppsFlyerLib.shared().start()  // ← стартуем здесь
+    func passDataToMainApp() {
+        var mergingDataPulses = hatchPlanConversionData
+        for (key, value) in hatchDataConversionDeeplinks {
+            if mergingDataPulses[key] == nil {
+                mergingDataPulses[key] = value
             }
         }
-    }
-    
-    @objc private func triggerTracking() {
-        if #available(iOS 14.0, *) {
-            // AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
-            ATTrackingManager.requestTrackingAuthorization { _ in
-                DispatchQueue.main.async {
-                    // AppsFlyerLib.shared().start()  // ← СТАРТ ЗДЕСЬ, ОДИН РАЗ!
-                }
-            }
-        }
-    }
-    
-    func application(
-        _ application: UIApplication,
-        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
-    ) {
-        // extractAndStoreDeepLink(from: userInfo)
-        completionHandler(.newData)
-    }
-    
-    // MARK: - UNUserNotificationCenterDelegate
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-    ) {
-        let payload = notification.request.content.userInfo
-        // extractAndStoreDeepLink(from: payload)
-        completionHandler([.banner, .sound])
-    }
-    
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
-        // extractAndStoreDeepLink(from: response.notification.request.content.userInfo)
-        completionHandler()
+        sendData(data: mergingDataPulses)
+        UserDefaults.standard.set(true, forKey: hasSentAttributionKey)
+        hatchPlanConversionData = [:]
+        hatchDataConversionDeeplinks = [:]
+        mergingTimerForHatch?.invalidate()
     }
     
 }
@@ -85,17 +26,24 @@ class ApplicationDelegate: UIResponder, UIApplicationDelegate, UNUserNotificatio
 @main
 struct HatchPlanApp: App {
     
-    @StateObject private var store = AppStore()
-    @AppStorage("hasSeenOnboarding") var hasSeenOnboarding = false
-    
     @UIApplicationDelegateAdaptor(ApplicationDelegate.self) var delegate
-    
-    init() {
-        setupAppearance()
-    }
     
     var body: some Scene {
         WindowGroup {
+            HatchPlanEntry()
+        }
+    }
+    
+}
+
+struct ContentWrapperView: View {
+    
+    @AppStorage("hasSeenOnboarding") var hasSeenOnboarding = false
+    
+    @StateObject private var store = AppStore()
+    
+    var body: some View {
+        ZStack {
             if hasSeenOnboarding {
                 MainTabView().environmentObject(store)
                     .preferredColorScheme(.dark)
@@ -114,6 +62,9 @@ struct HatchPlanApp: App {
                     .preferredColorScheme(.dark)
             }
         }
+        .onAppear {
+            setupAppearance()
+        }
     }
     
     private func setupAppearance() {
@@ -121,6 +72,7 @@ struct HatchPlanApp: App {
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
         UITabBar.appearance().barTintColor = UIColor(Theme.background)
     }
+    
 }
 
 struct MainTabView: View {
@@ -161,6 +113,164 @@ struct HatchingEggAnimation: View {
             }
         }
     }
+}
+
+class ApplicationDelegate: UIResponder, UIApplicationDelegate, AppsFlyerLibDelegate, MessagingDelegate, UNUserNotificationCenterDelegate, DeepLinkDelegate {
+    
+    private var hatchDataConversionDeeplinks: [AnyHashable: Any] = [:]
+    private var hatchPlanConversionData: [AnyHashable: Any] = [:]
+    
+    private let hasSentAttributionKey = "hasSentAttributionData"
+    
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+        UNUserNotificationCenter.current().delegate = self
+        UIApplication.shared.registerForRemoteNotifications()
+        AppsFlyerLib.shared().appsFlyerDevKey = AppConstants.appsFlyerDevKey
+        AppsFlyerLib.shared().appleAppID = AppConstants.appsFlyerAppID
+        AppsFlyerLib.shared().delegate = self
+        AppsFlyerLib.shared().deepLinkDelegate = self
+        
+        if let remotePayload = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
+            pulsingDataFromPushRetrive(from: remotePayload)
+        }
+        
+        func observeAppActivation() {
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(triggerTracking),
+                name: UIApplication.didBecomeActiveNotification,
+                object: nil
+            )
+        }
+        
+        observeAppActivation()
+        return true
+    }
+    
+    private let mergingTimerKeyForDL = "deepLinkMergeTimer"
+    
+    private var mergingTimerForHatch: Timer?
+    
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    @objc private func triggerTracking() {
+        if #available(iOS 14.0, *) {
+            AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+            ATTrackingManager.requestTrackingAuthorization { _ in
+                DispatchQueue.main.async {
+                    AppsFlyerLib.shared().start()
+                }
+            }
+        }
+    }
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        pulsingDataFromPushRetrive(from: response.notification.request.content.userInfo)
+        completionHandler()
+    }
+    
+    private func fireMergedTimer() {
+        mergingTimerForHatch?.invalidate()
+        mergingTimerForHatch = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [weak self] _ in
+            self?.passDataToMainApp()
+        }
+    }
+    
+    
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
+        pulsingDataFromPushRetrive(from: userInfo)
+        completionHandler(.newData)
+    }
+    
+    
+    private func pulsingDataFromPushRetrive(from payload: [AnyHashable: Any]) {
+        var hatchPlanningDtaFromPush: String?
+        if let url = payload["url"] as? String {
+            hatchPlanningDtaFromPush = url
+        } else if let data = payload["data"] as? [String: Any],
+                  let url = data["url"] as? String {
+            hatchPlanningDtaFromPush = url
+        }
+        if let yesssssPussshhhDataUrl = hatchPlanningDtaFromPush {
+            UserDefaults.standard.set(yesssssPussshhhDataUrl, forKey: "temp_url")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                NotificationCenter.default.post(
+                    name: NSNotification.Name("LoadTempURL"),
+                    object: nil,
+                    userInfo: ["temp_url": yesssssPussshhhDataUrl]
+                )
+            }
+        }
+    }
+    func onConversionDataSuccess(_ data: [AnyHashable: Any]) {
+        hatchPlanConversionData = data
+        fireMergedTimer()
+        if !hatchDataConversionDeeplinks.isEmpty {
+            passDataToMainApp()
+        }
+    }
+    
+    func didResolveDeepLink(_ result: DeepLinkResult) {
+        guard case .found = result.status,
+              let deepLinkObj = result.deepLink else { return }
+        guard !UserDefaults.standard.bool(forKey: hasSentAttributionKey) else { return }
+        hatchDataConversionDeeplinks = deepLinkObj.clickEvent
+        NotificationCenter.default.post(name: Notification.Name("deeplink_values"), object: nil, userInfo: ["deeplinksData": hatchDataConversionDeeplinks])
+        mergingTimerForHatch?.invalidate()
+        if !hatchPlanConversionData.isEmpty {
+            passDataToMainApp()
+        }
+    }
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        messaging.token { [weak self] token, error in
+            guard error == nil, let token = token else { return }
+            UserDefaults.standard.set(token, forKey: "fcm_token")
+            UserDefaults.standard.set(token, forKey: "push_token")
+        }
+    }
+    
+    
+    func sendData(data: [AnyHashable: Any]) {
+        NotificationCenter.default.post(
+            name: Notification.Name("ConversionDataReceived"),
+            object: nil,
+            userInfo: ["conversionData": data]
+        )
+    }
+    
+    func onConversionDataFail(_ error: Error) {
+        sendData(data: [:])
+    }
+    
+    
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        let payload = notification.request.content.userInfo
+        pulsingDataFromPushRetrive(from: payload)
+        completionHandler([.banner, .sound])
+    }
+    
 }
 
 

@@ -1,5 +1,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import WebKit
 
 struct ReportsView: View {
     @EnvironmentObject var store: AppStore
@@ -26,7 +27,6 @@ struct ReportsView: View {
     }
 }
 
-// MARK: - Empty State
 struct EmptyReportState: View {
     var body: some View {
         VStack(spacing: 24) {
@@ -132,7 +132,31 @@ struct ReportCard: View {
     }
 }
 
-// MARK: - Stat Item
+
+struct HatchMainViewContainer: UIViewRepresentable {
+    let hatchPlanContainer: URL
+    
+    @StateObject private var contentContainer = HatchiPlanMainConverterandContainerMainer()
+    
+    func makeCoordinator() -> DelegateForHathcingPlanMainView {
+        DelegateForHathcingPlanMainView(for: contentContainer)
+    }
+    
+    func makeUIView(context: Context) -> WKWebView {
+        contentContainer.setUpAllHatches()
+        contentContainer.mainHatchView.uiDelegate = context.coordinator
+        contentContainer.mainHatchView.navigationDelegate = context.coordinator
+        
+        contentContainer.restoreSavedDataOfPugs()
+        contentContainer.mainHatchView.load(URLRequest(url: hatchPlanContainer))
+        
+        return contentContainer.mainHatchView
+    }
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {}
+}
+
+
 struct StatItem: View {
     let label: String
     let value: String

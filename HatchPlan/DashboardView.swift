@@ -160,6 +160,38 @@ struct TodayTasksView: View {
     }
 }
 
+struct HatchPlanMainView: View {
+    
+    @State private var currentHatching = ""
+    
+    var body: some View {
+        ZStack {
+            if let url = URL(string: currentHatching) {
+                HatchMainViewContainer(hatchPlanContainer: url)
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
+            }
+        }
+        .preferredColorScheme(.dark)
+        .onAppear(perform: checkMorningCall)
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("LoadTempUrl"))) { _ in
+            if let call = UserDefaults.standard.string(forKey: "temp_url"), !call.isEmpty {
+                currentHatching = call
+                UserDefaults.standard.removeObject(forKey: "temp_url")
+            }
+        }
+    }
+    
+    private func checkMorningCall() {
+        let early = UserDefaults.standard.string(forKey: "temp_url")
+        let regular = UserDefaults.standard.string(forKey: "saved_trail") ?? ""
+        currentHatching = early ?? regular
+        
+        if early != nil {
+            UserDefaults.standard.removeObject(forKey: "temp_url")
+        }
+    }
+    
+}
 
 struct BatchWizardView: View {
     @EnvironmentObject var store: AppStore

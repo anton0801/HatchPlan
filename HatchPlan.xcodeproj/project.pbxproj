@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8F5571E02EDA1C3600F806C9 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8F5571DF2EDA1C3600F806C9 /* FirebaseAnalytics */; };
+		8F5571E22EDA1C3600F806C9 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8F5571E12EDA1C3600F806C9 /* FirebaseMessaging */; };
+		8F5571E52EDA1C7A00F806C9 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 8F5571E42EDA1C7A00F806C9 /* AppsFlyerLib */; };
+		8F5571F72EDA22A300F806C9 /* NotificationAppServiceExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8F5571F02EDA22A300F806C9 /* NotificationAppServiceExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8F5571FF2EDA22C200F806C9 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8F5571FE2EDA22C200F806C9 /* FirebaseMessaging */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		8F2BCA0B2EBBBFC200D4C444 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +29,34 @@
 			remoteGlobalIDString = 8F2BC9FB2EBBBFC000D4C444;
 			remoteInfo = HatchPlan;
 		};
+		8F5571F52EDA22A300F806C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F2BC9F42EBBBFC000D4C444 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F5571EF2EDA22A300F806C9;
+			remoteInfo = NotificationAppServiceExt;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8F5571FC2EDA22A300F806C9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8F5571F72EDA22A300F806C9 /* NotificationAppServiceExt.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8F2BC9FC2EBBBFC000D4C444 /* HatchPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HatchPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F2BCA0A2EBBBFC200D4C444 /* HatchPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HatchPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F2BCA142EBBBFC200D4C444 /* HatchPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HatchPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F5571F02EDA22A300F806C9 /* NotificationAppServiceExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationAppServiceExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +66,13 @@
 				Info.plist,
 			);
 			target = 8F2BC9FB2EBBBFC000D4C444 /* HatchPlan */;
+		};
+		8F5571FB2EDA22A300F806C9 /* Exceptions for "NotificationAppServiceExt" folder in "NotificationAppServiceExt" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8F5571EF2EDA22A300F806C9 /* NotificationAppServiceExt */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -58,6 +95,14 @@
 			path = HatchPlanUITests;
 			sourceTree = "<group>";
 		};
+		8F5571F12EDA22A300F806C9 /* NotificationAppServiceExt */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8F5571FB2EDA22A300F806C9 /* Exceptions for "NotificationAppServiceExt" folder in "NotificationAppServiceExt" target */,
+			);
+			path = NotificationAppServiceExt;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +110,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F5571E22EDA1C3600F806C9 /* FirebaseMessaging in Frameworks */,
+				8F5571E02EDA1C3600F806C9 /* FirebaseAnalytics in Frameworks */,
+				8F5571E52EDA1C7A00F806C9 /* AppsFlyerLib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +130,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F5571ED2EDA22A300F806C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F5571FF2EDA22C200F806C9 /* FirebaseMessaging in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +147,8 @@
 				8F2BC9FE2EBBBFC000D4C444 /* HatchPlan */,
 				8F2BCA0D2EBBBFC200D4C444 /* HatchPlanTests */,
 				8F2BCA172EBBBFC200D4C444 /* HatchPlanUITests */,
+				8F5571F12EDA22A300F806C9 /* NotificationAppServiceExt */,
+				8F5571FD2EDA22C200F806C9 /* Frameworks */,
 				8F2BC9FD2EBBBFC000D4C444 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,8 +159,16 @@
 				8F2BC9FC2EBBBFC000D4C444 /* HatchPlan.app */,
 				8F2BCA0A2EBBBFC200D4C444 /* HatchPlanTests.xctest */,
 				8F2BCA142EBBBFC200D4C444 /* HatchPlanUITests.xctest */,
+				8F5571F02EDA22A300F806C9 /* NotificationAppServiceExt.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8F5571FD2EDA22C200F806C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -115,16 +181,21 @@
 				8F2BC9F82EBBBFC000D4C444 /* Sources */,
 				8F2BC9F92EBBBFC000D4C444 /* Frameworks */,
 				8F2BC9FA2EBBBFC000D4C444 /* Resources */,
+				8F5571FC2EDA22A300F806C9 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8F5571F62EDA22A300F806C9 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8F2BC9FE2EBBBFC000D4C444 /* HatchPlan */,
 			);
 			name = HatchPlan;
 			packageProductDependencies = (
+				8F5571DF2EDA1C3600F806C9 /* FirebaseAnalytics */,
+				8F5571E12EDA1C3600F806C9 /* FirebaseMessaging */,
+				8F5571E42EDA1C7A00F806C9 /* AppsFlyerLib */,
 			);
 			productName = HatchPlan;
 			productReference = 8F2BC9FC2EBBBFC000D4C444 /* HatchPlan.app */;
@@ -176,6 +247,29 @@
 			productReference = 8F2BCA142EBBBFC200D4C444 /* HatchPlanUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		8F5571EF2EDA22A300F806C9 /* NotificationAppServiceExt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F5571F82EDA22A300F806C9 /* Build configuration list for PBXNativeTarget "NotificationAppServiceExt" */;
+			buildPhases = (
+				8F5571EC2EDA22A300F806C9 /* Sources */,
+				8F5571ED2EDA22A300F806C9 /* Frameworks */,
+				8F5571EE2EDA22A300F806C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8F5571F12EDA22A300F806C9 /* NotificationAppServiceExt */,
+			);
+			name = NotificationAppServiceExt;
+			packageProductDependencies = (
+				8F5571FE2EDA22C200F806C9 /* FirebaseMessaging */,
+			);
+			productName = NotificationAppServiceExt;
+			productReference = 8F5571F02EDA22A300F806C9 /* NotificationAppServiceExt.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,6 +291,9 @@
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 8F2BC9FB2EBBBFC000D4C444;
 					};
+					8F5571EF2EDA22A300F806C9 = {
+						CreatedOnToolsVersion = 16.4;
+					};
 				};
 			};
 			buildConfigurationList = 8F2BC9F72EBBBFC000D4C444 /* Build configuration list for PBXProject "HatchPlan" */;
@@ -208,6 +305,10 @@
 			);
 			mainGroup = 8F2BC9F32EBBBFC000D4C444;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8F5571DE2EDA1C3600F806C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8F5571E32EDA1C7A00F806C9 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8F2BC9FD2EBBBFC000D4C444 /* Products */;
 			projectDirPath = "";
@@ -216,6 +317,7 @@
 				8F2BC9FB2EBBBFC000D4C444 /* HatchPlan */,
 				8F2BCA092EBBBFC200D4C444 /* HatchPlanTests */,
 				8F2BCA132EBBBFC200D4C444 /* HatchPlanUITests */,
+				8F5571EF2EDA22A300F806C9 /* NotificationAppServiceExt */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +338,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8F2BCA122EBBBFC200D4C444 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F5571EE2EDA22A300F806C9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -266,6 +375,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F5571EC2EDA22A300F806C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -278,6 +394,11 @@
 			isa = PBXTargetDependency;
 			target = 8F2BC9FB2EBBBFC000D4C444 /* HatchPlan */;
 			targetProxy = 8F2BCA152EBBBFC200D4C444 /* PBXContainerItemProxy */;
+		};
+		8F5571F62EDA22A300F806C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F5571EF2EDA22A300F806C9 /* NotificationAppServiceExt */;
+			targetProxy = 8F5571F52EDA22A300F806C9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -407,6 +528,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HatchPlan/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow to use your camera for this app.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "HatchPlan uses personalized insights to help you focus better — like suggesting your best work hours or spotting distractions. To make these tips more accurate, we ask for permission to use limited, anonymized data from your sessions. No personal info is shared. You control it anytime in Settings.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -423,7 +545,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hatcinkplanni.HatchPlan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -448,6 +570,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HatchPlan/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow to use your camera for this app.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "HatchPlan uses personalized insights to help you focus better — like suggesting your best work hours or spotting distractions. To make these tips more accurate, we ask for permission to use limited, anonymized data from your sessions. No personal info is shared. You control it anytime in Settings.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -464,7 +587,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hatcinkplanni.HatchPlan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -564,6 +687,67 @@
 			};
 			name = Release;
 		};
+		8F5571F92EDA22A300F806C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationAppServiceExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationAppServiceExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hatcinkplanni.HatchPlan.NotificationAppServiceExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8F5571FA2EDA22A300F806C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationAppServiceExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationAppServiceExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hatcinkplanni.HatchPlan.NotificationAppServiceExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -603,7 +787,58 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8F5571F82EDA22A300F806C9 /* Build configuration list for PBXNativeTarget "NotificationAppServiceExt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F5571F92EDA22A300F806C9 /* Debug */,
+				8F5571FA2EDA22A300F806C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8F5571DE2EDA1C3600F806C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.6.0;
+			};
+		};
+		8F5571E32EDA1C7A00F806C9 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.17.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8F5571DF2EDA1C3600F806C9 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F5571DE2EDA1C3600F806C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		8F5571E12EDA1C3600F806C9 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F5571DE2EDA1C3600F806C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		8F5571E42EDA1C7A00F806C9 /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F5571E32EDA1C7A00F806C9 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+		8F5571FE2EDA22C200F806C9 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F5571DE2EDA1C3600F806C9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8F2BC9F42EBBBFC000D4C444 /* Project object */;
 }
