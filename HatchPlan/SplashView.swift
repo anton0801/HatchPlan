@@ -431,5 +431,7 @@ struct HatchPermissionView: View {
 }
 
 #Preview {
-    HatchPermissionView(onAllow: {}, onSkip: {})
+    HatchWarmScreen()
+    // NoConnectionScreen()
+    // HatchPermissionView(onAllow: {}, onSkip: {})
 }
