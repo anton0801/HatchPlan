@@ -29,15 +29,10 @@ final class HatchDirector: ObservableObject {
     init() {
         registerForNotifications()
         monitorConnectivity()
-        triggerPhaseEvaluation()
     }
     
     deinit {
         connectivityChecker.cancel()
-    }
-    
-    func triggerPhaseEvaluation() {
-        evaluateCurrentPhase()
     }
     
     private func registerForNotifications() {
@@ -312,9 +307,6 @@ struct HatchPlanEntry: View {
                     onSkip: director.userSkippedPermission
                 )
             }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-            director.triggerPhaseEvaluation()
         }
     }
 }
