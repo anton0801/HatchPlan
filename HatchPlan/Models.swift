@@ -95,7 +95,7 @@ struct IncubationPreset: Codable, Identifiable, Hashable {
 }
 
 struct Batch: Codable, Identifiable, Hashable, Equatable {
-    let id = UUID()
+    var id = UUID()
     var name: String
     var species: Species
     var startDate: Date

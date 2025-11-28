@@ -19,7 +19,7 @@ struct DashboardView: View {
                             HStack(spacing: 16) {
                                 ForEach(activeBatches) { batch in
                                     BatchCard(batch: batch)
-                                        .frame(width: 300)
+                                        .padding(.horizontal)
                                 }
                             }
                             .padding(.horizontal)
@@ -82,41 +82,41 @@ struct CircularProgressView: View {
     }
 }
 
-struct BatchCard: View {
-    let batch: Batch
-    @EnvironmentObject var store: AppStore
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Image(systemName: batch.species.iconName)
-                    .font(.title)
-                    .foregroundColor(Theme.accentYellow)
-                VStack(alignment: .leading) {
-                    Text(batch.name).font(Theme.nunito(20))
-                    Text("\(batch.species.displayName) • Day \(store.day(for: batch))/\(batch.totalDays)")
-                        .font(Theme.inter(14))
-                        .foregroundColor(.secondary)
-                }
-                Spacer()
-                CircularProgressView(progress: store.progress(for: batch))
-                    .frame(width: 50, height: 50)
-            }
-
-            let status = store.status(for: batch)
-            Text(status.text)
-                .font(.caption).bold()
-                .padding(.horizontal, 8).padding(.vertical, 4)
-                .background(status.color.opacity(0.2))
-                .foregroundColor(status.color)
-                .cornerRadius(8)
-        }
-        .padding()
-        .background(Theme.card)
-        .cornerRadius(16)
-        .shadow(radius: 8)
-    }
-}
+//struct BatchCard: View {
+//    let batch: Batch
+//    @EnvironmentObject var store: AppStore
+//
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 12) {
+//            HStack {
+//                Image(systemName: batch.species.iconName)
+//                    .font(.title)
+//                    .foregroundColor(Theme.accentYellow)
+//                VStack(alignment: .leading) {
+//                    Text(batch.name).font(Theme.nunito(20))
+//                    Text("\(batch.species.displayName) • Day \(store.day(for: batch))/\(batch.totalDays)")
+//                        .font(Theme.inter(14))
+//                        .foregroundColor(.secondary)
+//                }
+//                Spacer()
+//                CircularProgressView(progress: store.progress(for: batch))
+//                    .frame(width: 50, height: 50)
+//            }
+//
+//            let status = store.status(for: batch)
+//            Text(status.text)
+//                .font(.caption).bold()
+//                .padding(.horizontal, 8).padding(.vertical, 4)
+//                .background(status.color.opacity(0.2))
+//                .foregroundColor(status.color)
+//                .cornerRadius(8)
+//        }
+//        .padding()
+//        .background(Theme.card)
+//        .cornerRadius(16)
+//        .shadow(radius: 8)
+//    }
+//}
 
 struct TodayTasksView: View {
     @EnvironmentObject var store: AppStore

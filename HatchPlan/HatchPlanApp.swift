@@ -331,6 +331,23 @@ class AppStore: ObservableObject {
         tasks.append(contentsOf: newTasks)
         Storage.shared.saveTasks(tasks)
     }
+    
+    func updateBatchDate(_ batch: Batch, newDate: Date) {
+        guard let index = batches.firstIndex(where: { $0.id == batch.id }) else { return }
+        
+        // 1. Обновляем дату закладки
+        batches[index].startDate = newDate
+        
+        // 2. Удаляем все старые задачи этой партии
+        tasks.removeAll { $0.batchId == batch.id }
+        
+        // 3. Пересоздаём все задачи с новой датой
+        scheduleTasks(for: batches[index])
+        
+        // 4. Сохраняем всё
+        Storage.shared.saveBatches(batches)
+        Storage.shared.saveTasks(tasks)
+    }
 
     func completeTask(_ task: IncubationTask) {
         if let idx = tasks.firstIndex(where: { $0.id == task.id }) {
